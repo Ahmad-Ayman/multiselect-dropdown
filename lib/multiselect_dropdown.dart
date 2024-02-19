@@ -496,14 +496,14 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
                   Expanded(
                     child: _getContainerContent(),
                   ),
-                  if (widget.clearIcon != null && _anyItemSelected) ...[
-                    const SizedBox(width: 4),
-                    InkWell(
-                      onTap: () => clear(),
-                      child: widget.clearIcon,
-                    ),
-                    const SizedBox(width: 4)
-                  ],
+                  // if (widget.clearIcon != null && _anyItemSelected) ...[
+                  //   const SizedBox(width: 4),
+                  //   InkWell(
+                  //     onTap: () => clear(),
+                  //     child: widget.clearIcon,
+                  //   ),
+                  //   const SizedBox(width: 4)
+                  // ],
                   _buildSuffixIcon(),
                 ],
               ),
