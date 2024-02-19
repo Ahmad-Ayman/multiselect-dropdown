@@ -527,23 +527,20 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
 
   /// Container Content for the dropdown.
   Widget _getContainerContent() {
-    if (_selectedOptions.isEmpty) {
-      return HintText(
-        hintText: widget.hint,
-        hintColor: widget.hintColor,
-        hintStyle: widget.hintStyle,
-        hintPadding: widget.hintPadding,
-      );
-    }
-
     if (widget.selectionType == SelectionType.single &&
         !widget.showChipInSingleSelectMode) {
       return SingleSelectedItem(
           label: _selectedOptions.first.label,
           style: widget.singleSelectItemStyle);
     }
+    return HintText(
+      hintText: widget.hint,
+      hintColor: widget.hintColor,
+      hintStyle: widget.hintStyle,
+      hintPadding: widget.hintPadding,
+    );
 
-    return _buildSelectedItems();
+    // return _buildSelectedItems();
   }
 
   /// return true if any item is selected.
