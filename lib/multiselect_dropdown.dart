@@ -852,9 +852,9 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
                                     dropdownState(() {
                                       selectedOptions.remove(option);
                                     });
-                                    // setState(() {
-                                    //   _selectedOptions.remove(option);
-                                    // });
+                                    setState(() {
+                                      _selectedOptions.remove(option);
+                                    });
                                   } else {
                                     final bool hasReachMax =
                                         widget.maxItems == null
@@ -866,9 +866,9 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
                                     dropdownState(() {
                                       selectedOptions.add(option);
                                     });
-                                    // setState(() {
-                                    //   _selectedOptions.add(option);
-                                    // });
+                                    setState(() {
+                                      _selectedOptions.add(option);
+                                    });
                                   }
                                 } else {
                                   dropdownState(() {
