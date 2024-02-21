@@ -528,7 +528,8 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
   /// Container Content for the dropdown.
   Widget _getContainerContent() {
     if (widget.selectionType == SelectionType.single &&
-        !widget.showChipInSingleSelectMode) {
+        !widget.showChipInSingleSelectMode &&
+        _selectedOptions.isNotEmpty) {
       return SingleSelectedItem(
           label: _selectedOptions.first.label,
           style: widget.singleSelectItemStyle);
