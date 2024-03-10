@@ -384,6 +384,7 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
           ? _controller.options
           : widget.options);
     }
+
     _addOptions();
     if (mounted) {
       _initializeOverlay();
@@ -407,14 +408,16 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
 
   /// Adds the selected options and disabled options to the options list.
   void _addOptions() {
-    setState(() {
-      _selectedOptions.addAll(_controller.selectedOptions.isNotEmpty == true
-          ? _controller.selectedOptions
-          : widget.selectedOptions);
-      _disabledOptions.addAll(_controller.disabledOptions.isNotEmpty == true
-          ? _controller.disabledOptions
-          : widget.disabledOptions);
-    });
+    if(!_controller._isDisposed) {
+      setState(() {
+        _selectedOptions.addAll(_controller.selectedOptions.isNotEmpty == true
+            ? _controller.selectedOptions
+            : widget.selectedOptions);
+        _disabledOptions.addAll(_controller.disabledOptions.isNotEmpty == true
+            ? _controller.disabledOptions
+            : widget.disabledOptions);
+      });
+    }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_controller._isDisposed == false) {
@@ -450,10 +453,12 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
   }
 
   void _updateSelection() {
-    setState(() {
-      _selectionMode =
-          _focusNode.hasFocus || _searchFocusNode?.hasFocus == true;
-    });
+    if(!_controller._isDisposed) {
+      setState(() {
+        _selectionMode =
+            _focusNode.hasFocus || _searchFocusNode?.hasFocus == true;
+      });
+    }
   }
 
   /// Calculate offset size for dropdown.
@@ -872,14 +877,26 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
                                     });
                                   }
                                 } else {
-                                  dropdownState(() {
-                                    selectedOptions.clear();
-                                    selectedOptions.add(option);
-                                  });
-                                  setState(() {
-                                    _selectedOptions.clear();
-                                    _selectedOptions.add(option);
-                                  });
+
+                                  if(selectedOptions.contains(option)){
+                                    dropdownState(() {
+                                      selectedOptions.clear();
+
+                                    });
+                                    setState(() {
+                                      _selectedOptions.clear();
+
+                                    });
+                                  }else {
+                                    dropdownState(() {
+                                      selectedOptions.clear();
+                                      selectedOptions.add(option);
+                                    });
+                                    setState(() {
+                                      _selectedOptions.clear();
+                                      _selectedOptions.add(option);
+                                    });
+                                  }
                                   _focusNode.unfocus();
                                 }
 
@@ -1062,6 +1079,8 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
     });
   }
 
+
+
   /// Clear the selected options.
   /// [MultiSelectController] is used to clear the selected options.
   void clear() {
@@ -1082,7 +1101,7 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
     if (_controller.isDisposed == true) return;
 
     // if current disabled options are not equal to the controller's disabled options, update the state.
-    if (_disabledOptions != _controller.value._disabledOptions) {
+    if (_disabledOptions != _controller.value._disabledOptions && !_controller._isDisposed) {
       setState(() {
         _disabledOptions.clear();
         _disabledOptions.addAll(_controller.value._disabledOptions);
@@ -1090,7 +1109,7 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
     }
 
     // if current options are not equal to the controller's options, update the state.
-    if (_options != _controller.value._options) {
+    if (_options != _controller.value._options && !_controller._isDisposed) {
       setState(() {
         _options.clear();
         _options.addAll(_controller.value._options);
@@ -1098,7 +1117,7 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
     }
 
     // if current selected options are not equal to the controller's selected options, update the state.
-    if (_selectedOptions != _controller.value._selectedOptions) {
+    if (_selectedOptions != _controller.value._selectedOptions && !_controller._isDisposed) {
       setState(() {
         _selectedOptions.clear();
         _selectedOptions.addAll(_controller.value._selectedOptions);
